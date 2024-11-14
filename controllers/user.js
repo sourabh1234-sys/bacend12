@@ -46,7 +46,7 @@ async function createUser(req, res) {
             case "emp":
                 user = await Emp.create({ username, email, loginId: hashedLoginId, role });
                 break;
-            case "salesmanager":
+            case "salemanger":
                 user = await SalesManager.create({ username, email, loginId: hashedLoginId, role });
                 break;
             default:  
@@ -189,22 +189,7 @@ const UserLogin = async (req, res) => {
         return res.status(401).json({ message: 'Invalid login ID' });
       }
   
-      
-      if(role == "salemanger"){
-
-    const ip = req.headers['x-forwarded-for'] || req.ip;
-    const location = await getIpLocation(ip);
-      if (location) {
-        console.log(`User's location: Latitude ${location.latitude}, Longitude ${location.longitude}`);
-        user.location = {
-            latitude: location.latitude,
-            longitude: location.longitude
-        }
-        await user.save(); 
-      }
-      console.log(location.latitude);
-      
-      }
+    
   
       const token = setUser(user);  
       res.cookie('token', token, {
